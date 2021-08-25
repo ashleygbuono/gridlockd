@@ -1,14 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <script src="main.js" defer></script>
-  <title>FSA Boilerplate</title>
-</head>
-<body>
-  <div id="app"></div>
-</body>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.18.0/phaser.min.js"></script>
+  </head>
+  <body>
+    <script>
+
+      let game;
+
+      let HORIZONTAL = 0;
+      let VERTICAL = 1;
+      // let EMPTY = 2;
+
+      let tileSize = 133.333;
+
+      let gameBoard = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0]
+      ];
+
+      let vehiclesArray = [
+        //needs to be renamed once levels are added
+        {
+          row: 0,
+          col: 3,
+          dir: VERTICAL,
+          len: 2,
+          spr: "greycar",
+        },
+        {
+          row: 2,
+          col: 0,
+          dir: HORIZONTAL,
+          len: 2,
+          spr: "redcar",
+        },
+        {
+          row: 2,
+          col: 3,
+          dir: VERTICAL,
+          len: 2,
+          spr: "bluecar",
+        },
+        {
+          row: 4,
+          col: 4,
+          dir: HORIZONTAL,
+          len: 2,
+          spr: "purplecar",
+        },
+        {
+          row: 1,
+          col: 4,
+          dir: HORIZONTAL,
+          len: 2,
+          spr: "orangecar",
+        },
+        {
+          row: 3,
+          col: 4,
+          dir: HORIZONTAL,
+          len: 2,
+          spr: "pinkcar",
+        },
+        {
+          row: 4,
+          col: 5,
+          dir: VERTICAL,
+          len: 2,
+          spr: "greencar",
+        },
+        {
+          row: 3,
+          col: 0,
+          dir: VERTICAL,
+          len: 3,
+          spr: "yellowtruck",
+        },
+        {
+          row: 3,
+          col: 2,
+          dir: VERTICAL,
+          len: 3,
+          spr: "purpletruck",
+        },
+      ];
+
+      window.onload = function () {
+        game = new Phaser.Game(800, 800);
+        game.state.add("PlayGame", playGame);
+        game.state.start("PlayGame");
+      };
+
+      let playGame = function (game) {};
+      playGame.prototype = {
+        preload: function () {
+          game.load.image("field", "/assets/sprites/field.png");
+          game.load.image("redcar", "/assets/sprites/redcar.png");
+          game.load.image("greycar", "/assets/sprites/greycar.png");
+          game.load.image("greencar", "/assets/sprites/greencar.png");
+          game.load.image("bluecar", "/assets/sprites/bluecar.png");
+          game.load.image("purplecar", "/assets/sprites/purplecar.png");
+          game.load.image("orangecar", "/assets/sprites/orangecar.png");
+          game.load.image("pinkcar", "/assets/sprites/pinkcar.png");
+          game.load.image("yellowtruck", "/assets/sprites/yellowtruck.png");
+          game.load.image("purpletruck", "/assets/sprites/purpletruck.png");
+        },
+        create: function () {
+          let field = game.add.sprite(0, 0, "field");
+          // console.table("GAMEBOARD PREDRAG", gameBoard);
+          for (let i = 0; i < vehiclesArray.length; i++) {
+            let veh = vehiclesArray[i];
+            console.log(veh);
+            for (let j = 0; j < veh.len; j++) {
+              //setting overlap to "occupied"
+              if (veh.dir == HORIZONTAL) {
+                gameBoard[veh.row][veh.col + j] = 1;
+              }
+              if (veh.dir == VERTICAL) {
+                gameBoard[veh.row + j][veh.col] = 1;
+              }
+            }
+            let car = this.add.sprite(
+              130 * veh.col + 130 * veh.dir,
+              130 * veh.row,
+              veh.spr
+            );
+            console.log("CAR", car);
+
+            car.angle = 90 * veh.dir;
+            car.data = {
+              row: veh.row,
+              col: veh.col,
+              dir: veh.dir,
+              len: veh.len,
+            };
+            car.inputEnabled = true;
+            car.input.enableDrag();
+            if (veh.dir == VERTICAL) {
+              car.input.allowHorizontalDrag = false;
+            }
+            if (veh.dir == HORIZONTAL) {
+              car.input.allowVerticalDrag = false;
+            }
+            car.input.enableSnap(tileSize, tileSize, true, true);
+            //snap on startDrag and stopDrag
+            car.events.onDragStart.add(startDrag);
+            car.events.onDragStop.add(stopDrag);
+          }
+
+        },
+      };
+
+      function startDrag(el) {
+        console.log("EL", el);
+        let i;
+        let from;
+        let to;
+
+        if (el.data.dir == HORIZONTAL) {
+          from = el.data.col;
+          to = el.data.col + el.data.len - 1;
+          for (i = el.data.col - 1; i >= 0; i--) {
+            if (gameBoard[el.data.row][i] == 0) {
+              from = i;
+            } else {
+              break;
+            }
+          }
+          for (i = el.data.col + el.data.len; i < 6; i++) {
+            if (gameBoard[el.data.row][i] == 0) {
+              to = i;
+            } else {
+              break;
+            }
+          }
+          el.input.boundsRect = new Phaser.Rectangle(
+            from * tileSize,
+            el.y,
+            (to - from + 1) * tileSize,
+            tileSize
+          );
+        }
+        if (el.data.dir == VERTICAL) {
+          from = el.data.row;
+          to = el.data.row + el.data.len - 1;
+          for (i = el.data.row - 1; i >= 0; i--) {
+            if (gameBoard[i][el.data.col] == 0) {
+              from = i;
+            } else {
+              break;
+            }
+          }
+          for (i = el.data.row + el.data.len; i < 6; i++) {
+            if (gameBoard[i][el.data.col] == 0) {
+              to = i;
+            } else {
+              break;
+            }
+          }
+          el.input.boundsRect = new Phaser.Rectangle(
+            el.x,
+            from * tileSize,
+            el.x + el.data.len * tileSize,
+            (to - from + 2 - el.data.len) * tileSize
+          );
+        }
+      }
+
+      function stopDrag(el) {
+        // this.input.on('pointerdown', this.startDrag, this);
+        // this.input.off('pointermove', this.doDrag, this);
+        // this.input.off('pointerup', this.stopDrag, this);
+
+        for (let i = 0; i < el.data.len; i++) {
+          if (el.data.dir == HORIZONTAL) {
+            gameBoard[el.data.row][el.data.col + i] = 0;
+          }
+          if (el.data.dir == VERTICAL) {
+            gameBoard[el.data.row + i][el.data.col] = 0;
+          }
+        }
+        if (el.data.dir == HORIZONTAL) {
+          el.data.col = el.x / tileSize;
+          for (i = 0; i < el.data.len; i++) {
+            gameBoard[el.data.row][el.data.col + i] = 1;
+          }
+        }
+        if (el.data.dir == VERTICAL) {
+          el.data.row = el.y / tileSize;
+          for (i = 0; i < el.data.len; i++) {
+            gameBoard[el.data.row + i][el.data.col] = 1;
+          }
+        }
+        // console.table("GAMEBOARD POSTDRAG", gameBoard);
+      }
+
+
+        // var config = {
+      //   type: Phaser.AUTO,
+      //   width: 2000,
+      //   height: 2000,
+      //   backgroundColor: '#ffffff',
+      //   scale: {
+      //     mode: Phaser.scale
+      //   },
+      //   scene: {
+      //     preload: preload,
+      //     create: create,
+      //     extend: {
+      //       startDrag: startDrag,
+      //       doDrag: doDrag,
+      //       stopDrag: stopDrag
+      //     }
+      //   }
+      // };
+      // console.log("CONFIG", config);
+
+      // var game = new Phaser.Game(config);
+      // console.log("THIS.GAME", this.game);
+      // function preload() {
+      // this.load.image("grid", "/assets/vehicless/grid.png");
+      // this.load.image("greycar", "/assets/vehicless/greycar.png");
+      // }
+
+      // function create() {
+      // this.events.on("resize", this.parent.resize, this);
+      // let grid = this.add.image(1000, 1000, "grid");
+      // grid.setDisplaySize(2000, 2000);
+
+      // for (let i = 0; i < vehiclesArray.length; i++) {
+      //   let vehicles = vehiclesArray[i];
+      //   for (let j = 0; j < vehicles.length; j++) {
+      //     if (vehicles.dir === HORIZONTAL) {
+      //       gameBoard[vehicles.row][vehicles.col + j] = 1;
+      //     }
+      //     if (vehicles.dir === VERTICAL) {
+      //       gameBoard[vehicles.row + j][vehicles.col] = 1;
+      //     }
+      //   }
+      //   let car = this.add.sprite(
+      //     tileSize * vehicles.col + tileSize * vehicles.dir,
+      //     tileSize * vehicles.row,
+      //     vehicles.spr
+      //   );
+
+      // car.setInteractive();
+      // console.log("CAR", car);
+      // console.log("THIS", this);
+
+      // this.car = Phaser.Math.RotateTo(0, 90 * vehicles.dir);
+
+      // this.input.on('pointerdown', this.startDrag, this);
+      // console.log("CAR.INPUT", car.input);
+
+      //   }
+      // }
+
+      // this.input.off('pointerdown', this.startDrag, this);
+      // this.dragObj = vehicles[0];
+      // this.input.on('pointermove', this.doDrag, this);
+      // this.input.on('pointerup', this.stopDrag, this);
+
+      // console.log("DRAGOBJ", this.dragObj);
+      // function doDrag(pointer, dragObj) {
+      //   this.dragObj.x = pointer.x;
+      //   this.dragObj.y = pointer.y;
+      // }
+    </script>
+  </body>
 </html>
