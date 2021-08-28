@@ -1,67 +1,53 @@
 {
-    "vehiclesArray" : [
+    "vehiclesArray": [
         {
-          "row": 0,
-          "col": 3,
-          "dir": 1,
-          "len": 2,
-          "spr": "greycar"
+            "row": 0,
+            "col": 2,
+            "dir": 1,
+            "len": 3,
+            "spr": "yellowtruck"
         },
         {
-          "row": 2,
-          "col": 0,
-          "dir": 0,
-          "len": 2,
-          "spr": "redcar"
+            "row": 5,
+            "col": 3,
+            "dir": 0,
+            "len": 3,
+            "spr": "purpletruck"
         },
         {
-          "row": 2,
-          "col": 3,
-          "dir": 1,
-          "len": 2,
-          "spr": "bluecar"
+            "row": 3,
+            "col": 0,
+            "dir": 0,
+            "len": 3,
+            "spr": "bluetruck"
         },
         {
-          "row": 4,
-          "col": 3,
-          "dir": 0,
-          "len": 2,
-          "spr": "purplecar"
+            "row": 0,
+            "col": 3,
+            "dir": 0,
+            "len": 3,
+            "spr": "greentruck"
         },
         {
-          "row": 1,
-          "col": 4,
-          "dir": 0,
-          "len": 2,
-          "spr": "orangecar"
+            "row": 5,
+            "col": 1,
+            "dir": 0,
+            "len": 2,
+            "spr": "greycar"
         },
         {
-          "row": 3,
-          "col": 4,
-          "dir": 0,
-          "len": 2,
-          "spr": "pinkcar"
+            "row": 2,
+            "col": 0,
+            "dir": 0,
+            "len": 2,
+            "spr": "redcar"
         },
         {
-          "row": 4,
-          "col": 5,
-          "dir": 1,
-          "len": 2,
-          "spr": "greencar"
-        },
-        {
-          "row": 3,
-          "col": 0,
-          "dir": 1,
-          "len": 3,
-          "spr": "yellowtruck"
-        },
-        {
-          "row": 3,
-          "col": 2,
-          "dir": 1,
-          "len": 3,
-          "spr": "purpletruck"
+            "row": 4,
+            "col": 0,
+            "dir": 1,
+            "len": 2,
+            "spr": "orangecar"
         }
-      ]
+    ]
 }

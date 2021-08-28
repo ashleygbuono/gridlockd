@@ -1,4 +1,4 @@
-let game = new Phaser.Game(2500, 1200, Phaser.AUTO, "game"), Main = function () {};
+let game = new Phaser.Game(2500, 1600, Phaser.AUTO, "game"), Main = function () {};
 
 window.AudioContext = null;
 

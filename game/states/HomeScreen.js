@@ -9,7 +9,7 @@ Home.prototype = {
     },
 
     loadImages: function() {
-        game.load.image("completed", "assets/images/completed.png");
+        game.load.image("completed", "assets/images/mission-accomplished.png");
         game.load.image("field", "./assets/sprites/field.png");
         game.load.image("redcar", "./assets/sprites/redcar.png");
         game.load.image("greycar", "./assets/sprites/greycar.png");
@@ -20,6 +20,10 @@ Home.prototype = {
         game.load.image("pinkcar", "./assets/sprites/pinkcar.png");
         game.load.image("yellowtruck", "./assets/sprites/yellowtruck.png");
         game.load.image("purpletruck", "./assets/sprites/purpletruck.png");
+        game.load.image("bluetruck", "./assets/sprites/bluetruck.png");
+        game.load.image("greentruck", "./assets/sprites/greentruck.png");
+        game.load.image("roadbg", "./assets/images/straight-road.png");
+        game.load.image("angry", "./assets/images/angry-driver.png");
     },
 
     // init: function() {
@@ -49,7 +53,7 @@ Home.prototype = {
     //    logo.anchor.setTo(0.5, 0.75);
         game.add.existing(logo).scale.setTo(2);
         game.stage.disableVisibilityChange = true;
-        let startText = game.add.text(1100, 630, "Start", {
+        let startText = game.add.text(1130, 855, "Start", {
             font: "75px impact",
             fill: "white",
             align: "center"
