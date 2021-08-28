@@ -2,15 +2,22 @@
 <html>
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.18.0/phaser.min.js"></script>
+    <!-- <style>
+      canvas {
+        padding-top: 8rem;
+        /* padding-left: 2rem; */
+      }
+      </style> -->
   </head>
   <body>
     <script>
-
       let game;
+      let moves = "";
+      let movesStr = "";
+      let movesText;
 
       let HORIZONTAL = 0;
       let VERTICAL = 1;
-      // let EMPTY = 2;
 
       let tileSize = 133.333;
 
@@ -20,7 +27,7 @@
         [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0]
+        [0, 0, 0, 0, 0, 0],
       ];
 
       let vehiclesArray = [
@@ -48,7 +55,7 @@
         },
         {
           row: 4,
-          col: 4,
+          col: 3,
           dir: HORIZONTAL,
           len: 2,
           spr: "purplecar",
@@ -91,7 +98,7 @@
       ];
 
       window.onload = function () {
-        game = new Phaser.Game(800, 800);
+        game = new Phaser.Game(2500, 1200);
         game.state.add("PlayGame", playGame);
         game.state.start("PlayGame");
       };
@@ -111,6 +118,7 @@
           game.load.image("purpletruck", "/assets/sprites/purpletruck.png");
         },
         create: function () {
+          game.stage.backgroundColor = "#FFFFFF";
           let field = game.add.sprite(0, 0, "field");
           // console.table("GAMEBOARD PREDRAG", gameBoard);
           for (let i = 0; i < vehiclesArray.length; i++) {
@@ -125,6 +133,14 @@
                 gameBoard[veh.row + j][veh.col] = 1;
               }
             }
+            // move counter stuff
+            movesStr = "Moves: ";
+            movesText = game.add.text(1275, 200, movesStr + moves, {
+              font: "34px Arial",
+              fill: "black",
+            });
+
+            //veh specs added
             let car = this.add.sprite(
               130 * veh.col + 130 * veh.dir,
               130 * veh.row,
@@ -148,12 +164,13 @@
               car.input.allowVerticalDrag = false;
             }
             car.input.enableSnap(tileSize, tileSize, true, true);
-            //snap on startDrag and stopDrag
             car.events.onDragStart.add(startDrag);
             car.events.onDragStop.add(stopDrag);
           }
-
         },
+        update: function () {
+          game.input.onUp.addOnce(updateMoves, this);
+        }
       };
 
       function startDrag(el) {
@@ -213,9 +230,6 @@
       }
 
       function stopDrag(el) {
-        // this.input.on('pointerdown', this.startDrag, this);
-        // this.input.off('pointermove', this.doDrag, this);
-        // this.input.off('pointerup', this.stopDrag, this);
 
         for (let i = 0; i < el.data.len; i++) {
           if (el.data.dir == HORIZONTAL) {
@@ -240,8 +254,12 @@
         // console.table("GAMEBOARD POSTDRAG", gameBoard);
       }
 
+      function updateMoves() {
+          moves++;
+          movesText.setText("Moves: " + moves); 
+      }
 
-        // var config = {
+      // var config = {
       //   type: Phaser.AUTO,
       //   width: 2000,
       //   height: 2000,
