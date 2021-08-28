@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-const PUBLIC_PATH = path.join(__dirname, '../public');
+const PUBLIC_PATH = path.join(__dirname, '../game');
 const DIST_PATH = path.join(__dirname, '../dist');
 
 app.use(express.json());
@@ -11,7 +11,7 @@ app.use(express.static(PUBLIC_PATH));
 app.use(express.static(DIST_PATH));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(__dirname, '../game/index.html'));
 });
 
 app.listen(PORT, () => {

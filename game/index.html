@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.18.0/phaser.min.js"></script>
-    <!-- <style>
-      canvas {
-        padding-top: 8rem;
-        /* padding-left: 2rem; */
-      }
-      </style> -->
   </head>
   <body>
-    <script>
+    <main id="game"></main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.18.0/phaser.min.js"></script>
+    <script src="main.js"></script>
+    <script src="states/PlayGame.js"></script>
+    <!-- <script>
       let game;
       let moves = "";
       let movesStr = "";
@@ -257,78 +254,7 @@
       function updateMoves() {
           moves++;
           movesText.setText("Moves: " + moves); 
-      }
-
-      // var config = {
-      //   type: Phaser.AUTO,
-      //   width: 2000,
-      //   height: 2000,
-      //   backgroundColor: '#ffffff',
-      //   scale: {
-      //     mode: Phaser.scale
-      //   },
-      //   scene: {
-      //     preload: preload,
-      //     create: create,
-      //     extend: {
-      //       startDrag: startDrag,
-      //       doDrag: doDrag,
-      //       stopDrag: stopDrag
-      //     }
-      //   }
-      // };
-      // console.log("CONFIG", config);
-
-      // var game = new Phaser.Game(config);
-      // console.log("THIS.GAME", this.game);
-      // function preload() {
-      // this.load.image("grid", "/assets/vehicless/grid.png");
-      // this.load.image("greycar", "/assets/vehicless/greycar.png");
-      // }
-
-      // function create() {
-      // this.events.on("resize", this.parent.resize, this);
-      // let grid = this.add.image(1000, 1000, "grid");
-      // grid.setDisplaySize(2000, 2000);
-
-      // for (let i = 0; i < vehiclesArray.length; i++) {
-      //   let vehicles = vehiclesArray[i];
-      //   for (let j = 0; j < vehicles.length; j++) {
-      //     if (vehicles.dir === HORIZONTAL) {
-      //       gameBoard[vehicles.row][vehicles.col + j] = 1;
-      //     }
-      //     if (vehicles.dir === VERTICAL) {
-      //       gameBoard[vehicles.row + j][vehicles.col] = 1;
-      //     }
-      //   }
-      //   let car = this.add.sprite(
-      //     tileSize * vehicles.col + tileSize * vehicles.dir,
-      //     tileSize * vehicles.row,
-      //     vehicles.spr
-      //   );
-
-      // car.setInteractive();
-      // console.log("CAR", car);
-      // console.log("THIS", this);
-
-      // this.car = Phaser.Math.RotateTo(0, 90 * vehicles.dir);
-
-      // this.input.on('pointerdown', this.startDrag, this);
-      // console.log("CAR.INPUT", car.input);
-
-      //   }
-      // }
-
-      // this.input.off('pointerdown', this.startDrag, this);
-      // this.dragObj = vehicles[0];
-      // this.input.on('pointermove', this.doDrag, this);
-      // this.input.on('pointerup', this.stopDrag, this);
-
-      // console.log("DRAGOBJ", this.dragObj);
-      // function doDrag(pointer, dragObj) {
-      //   this.dragObj.x = pointer.x;
-      //   this.dragObj.y = pointer.y;
-      // }
-    </script>
+      } -->
+    <!-- </script> -->
   </body>
 </html>

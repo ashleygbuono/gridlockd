@@ -1,0 +1,67 @@
+{
+    "vehiclesArray" : [
+        {
+          "row": 0,
+          "col": 3,
+          "dir": 1,
+          "len": 2,
+          "spr": "greycar"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "dir": 0,
+          "len": 2,
+          "spr": "redcar"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "dir": 1,
+          "len": 2,
+          "spr": "bluecar"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "dir": 0,
+          "len": 2,
+          "spr": "purplecar"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "dir": 0,
+          "len": 2,
+          "spr": "orangecar"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "dir": 0,
+          "len": 2,
+          "spr": "pinkcar"
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "dir": 1,
+          "len": 2,
+          "spr": "greencar"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "dir": 1,
+          "len": 3,
+          "spr": "yellowtruck"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "dir": 1,
+          "len": 3,
+          "spr": "purpletruck"
+        }
+      ]
+}
